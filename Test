@@ -1,0 +1,66 @@
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.util.Scanner;
+
+public class Test {
+
+    public static void main(String[] args) {
+        String[] words;
+        Scanner sc = new Scanner(System.in);
+        String outputS = "";
+        String outputN = "";
+        String output = "";
+        System.out.print("Input:");
+        String line = sc.nextLine();
+        line = line.replaceAll("\\(", "");
+        line = line.replaceAll("\\)", "");
+        line = line.replaceAll("\u201c", "");
+        line = line.replaceAll("\u201d", "");
+        int num = Integer.parseInt(line.substring(0, 1));
+        line = line.substring(1, line.length()).replaceAll(",", "").trim();
+        for (String str : words = line.split(" ")) {
+            if (isInteger(str)) {
+                int n = consecutiveMultiple(num, str);
+                if (n <= 0) {
+                    continue;
+                }
+                outputN = outputN + n + ", ";
+                continue;
+            }
+            if (!isPalindrome(str)) {
+                continue;
+            }
+            outputS = outputS + str + ", ";
+        }
+        output = outputN + outputS;
+        output = output.trim().substring(0, output.length() - 2);
+        System.out.println("output:" + output);
+    }
+
+    public static boolean isPalindrome(String str) {
+        return str.equals(new StringBuilder(str).reverse().toString());
+    }
+
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return false;
+        } catch (NullPointerException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public static int consecutiveMultiple(int m, String str) {
+        int i = 0;
+        for (int k = 0; k < str.length(); ++k) {
+            int num = Integer.parseInt(str.substring(0, str.length() - k));
+            if (num % m != 0 || i >= num) {
+                continue;
+            }
+            i = num;
+        }
+        return i;
+    }
+}
